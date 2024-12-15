@@ -4,12 +4,10 @@ import { Stack } from 'expo-router';
 
 const AuthScreenLayout = () => {
   return (
-    <Stack>
+    <Stack initialRouteName='index' screenOptions={{ headerShown: false }}>
       <Stack.Screen name='index' />
     </Stack>
   )
 }
 
 export default AuthScreenLayout;
-
-const styles = StyleSheet.create({})

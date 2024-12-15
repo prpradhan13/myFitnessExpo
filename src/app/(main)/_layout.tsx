@@ -9,7 +9,7 @@ const Layout = () => {
   return (
     <>
       <Stack screenOptions={{ headerShown:false }}>
-        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="(tabs)"/>
         <Stack.Screen name="cardDetatils/[name]" />
         <Stack.Screen name="planDetatils/[id]" />
       </Stack>
