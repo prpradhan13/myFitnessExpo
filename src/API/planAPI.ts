@@ -27,3 +27,14 @@ export const getPlanById = async (planId: string) => {
         return {};
     }
 };
+
+export const getDayExerciseById = async (dayId: string) => {
+    try {
+        const res = await api.get(`/dayExercises/${dayId}`)
+
+        return res.data?.dayExercisesData || {};
+    } catch (error: any) {
+        console.log(error.message);
+        return {};
+    }
+}

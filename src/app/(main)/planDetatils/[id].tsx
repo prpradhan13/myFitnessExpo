@@ -1,6 +1,12 @@
-import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import React from "react";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useGetPlanByIdQuery } from "@/src/utils/planQuery";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomText from "@/src/utils/CustomText";
@@ -11,7 +17,9 @@ const PlanDetails = () => {
 
   const { data, isLoading, isError, error } = useGetPlanByIdQuery(singleId);
 
-  const handleOnPress = (dayId: string) => {}
+  const handleOnPress = (dayId: string) => {
+    router.push(`/(main)/ExerciseDetails/${dayId}`);
+  };
 
   if (isLoading) {
     return (
@@ -30,26 +38,15 @@ const PlanDetails = () => {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-backgroundColor p-3">
+    <SafeAreaView className="flex-1 bg-backgroundColor pt-5 px-3">
       <View>
-        {/* Plan name */}
-        <CustomText
-          style={{
-            fontSize: 22,
-            fontFamily: "Montserrat-Bold",
-            textTransform: "capitalize",
-          }}
-        >
-          {data?.name}
-        </CustomText>
-
         {/* Difficulty Level */}
-        <View className="bg-extrasColor rounded-md w-32 mt-2 py-2 justify-center items-center flex">
+        <View className="bg-extrasColor rounded-md w-32 mt-2 py-1 justify-center items-center flex">
           <CustomText
             style={{
               fontSize: 12,
               textTransform: "capitalize",
-              fontFamily: "Montserrat-SemiBold"
+              fontFamily: "Montserrat-SemiBold",
             }}
             numberOfLines={1}
           >
@@ -57,25 +54,40 @@ const PlanDetails = () => {
           </CustomText>
         </View>
 
+        {/* Plan name */}
+        <CustomText
+          style={{
+            fontSize: 24,
+            fontFamily: "Montserrat-Bold",
+            textTransform: "capitalize",
+            marginTop: 5
+          }}
+        >
+          {data?.name}
+        </CustomText>
+
         {/* Description */}
-        <Text style={{ fontFamily: "Montserrat-SemiBold" }} className="mt-4 leading-4">
+        <Text
+          style={{ fontFamily: "Montserrat-SemiBold" }}
+          className="mt-3 leading-4"
+        >
           {data?.description}
         </Text>
       </View>
 
       {/* Workout Details */}
       <View className="mt-8">
-        {data?.days.map((day) => (
+        {data?.days?.map((day) => (
           <Pressable
             onPress={() => handleOnPress(day._id)}
-            key={day._id} 
-            className="bg-primaryAccentColor rounded-md p-5"
+            key={day._id}
+            className="bg-primaryAccentColor rounded-md p-5 mb-3"
           >
-            <Text 
-              style={{ fontFamily: "Montserrat-Bold" }} 
+            <Text
+              style={{ fontFamily: "Montserrat-Bold" }}
               className="capitalize text-xl"
             >
-              {day.dayName}
+              {day.name}
             </Text>
           </Pressable>
         ))}
