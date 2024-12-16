@@ -27,6 +27,7 @@ export type PlanData = {
     _id: string,
     name: string,
     planType: string,
+    createdBy: string,
     isPublic: boolean,
     difficultyLevel: string,
     description?: string,
@@ -35,4 +36,16 @@ export type PlanData = {
 
 export type PlanDataResponse = {
     planData: PlanData[]
+}
+
+export type UserDataResponse = {
+    _id: string,
+    clerkId: string,
+    email: string,
+    first_name: string,
+    last_name: string,
+    isAdmin: boolean,
+    age: number,
+    fitness_level: string,
+    role: string
 }

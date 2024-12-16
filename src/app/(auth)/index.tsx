@@ -2,7 +2,7 @@ import { Text, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import CustomText from '@/src/utils/CustomText'
-import { useAuth, useOAuth } from '@clerk/clerk-expo'
+import { useOAuth } from '@clerk/clerk-expo'
 import * as WebBrowser from 'expo-web-browser'
 import * as Linking from 'expo-linking'
 
