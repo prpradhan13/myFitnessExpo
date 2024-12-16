@@ -2,7 +2,7 @@ import { Text, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import CustomText from '@/src/utils/CustomText'
-import { useOAuth, useSignIn } from '@clerk/clerk-expo'
+import { useAuth, useOAuth } from '@clerk/clerk-expo'
 import * as WebBrowser from 'expo-web-browser'
 import * as Linking from 'expo-linking'
 
@@ -21,19 +21,18 @@ WebBrowser.maybeCompleteAuthSession()
 
 const AuthIndex = () => {
   useWarmUpBrowser()
-
   const { startOAuthFlow } = useOAuth({ strategy: 'oauth_google' })
-
 
   const onPress = React.useCallback(async () => {
     try {
-      const { createdSessionId, signIn, signUp, setActive } = await startOAuthFlow({
+      const { createdSessionId, setActive } = await startOAuthFlow({
         redirectUrl: Linking.createURL('myapp://oauth-callback', { scheme: 'myapp' }),
       })
 
       // If sign-in is successful, set the active session
       if (createdSessionId) {
         setActive!({ session: createdSessionId });
+        
       } else {
         console.error('No session created. Check the flow steps.');
       }

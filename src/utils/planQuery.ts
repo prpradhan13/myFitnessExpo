@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getDayExerciseById, getPlanById, getPlans } from "../API/planAPI";
 import { Day, PlanData, PlanDataResponse } from "../types/types";
 
-export const usePlanQuery = () => {
+export const usePlanQuery = async () => {
     return useQuery<PlanDataResponse>({
         queryKey: ['publicPlan'],
         queryFn: getPlans

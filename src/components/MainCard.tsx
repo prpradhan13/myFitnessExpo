@@ -5,6 +5,7 @@ import CustomText from "../utils/CustomText";
 import { usePlanQuery } from "../utils/planQuery";
 import MainCardLoader from "./loader/MainCardLoader";
 import { router } from "expo-router";
+import { useAuth } from "@clerk/clerk-expo";
 
 const MainCard = ({ cardTitle }: MainCardProps) => {
   const {data, isLoading} = usePlanQuery();

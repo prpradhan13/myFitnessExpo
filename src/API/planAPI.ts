@@ -7,8 +7,6 @@ const api = axios.create({
 export const getPlans = async () => {
     try {
         const res = await api.get('/plans')
-
-        // console.log(res.data?.planData);
         
         return res.data || [];
     } catch (error: any) {
