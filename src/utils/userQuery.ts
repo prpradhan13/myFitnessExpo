@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import { getUser, getUserPlans } from "../API/userAPI";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { createPlanByUser, getUser, getUserPlans } from "../API/userAPI";
 import { PlanDataResponse, UserDataResponse } from "../types/types";
 
 export const useUserQuery = (userId: string) => {
@@ -20,3 +20,9 @@ export const useUserPlansQuery = (userId: string) => {
         planData: query.data?.planData
     })
 }
+
+export const useCreatePlanByUser = ({userId, trainingForm}) => {
+    return useMutation({
+        mutationFn: () => createPlanByUser({userId, trainingForm})
+    })
+};

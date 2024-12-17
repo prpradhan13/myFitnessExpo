@@ -49,3 +49,7 @@ export type UserDataResponse = {
     fitness_level: string,
     role: string
 }
+
+export type PlanFormProviderTypes = {
+    
+}

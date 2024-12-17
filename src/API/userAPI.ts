@@ -25,3 +25,20 @@ export const getUserPlans = async (userId: string) => {
     return [];
   }
 }
+
+export const createPlanByUser = async ({userId, planData}) => {
+  console.log("userId", userId);
+  console.log("payload", planData);
+  
+  try {
+    const res = await api.post(
+      `/userplans/${userId}`, 
+      planData
+    )
+
+    return res.data || {};
+  } catch (error: any) {
+    console.log(error.message);
+    return {};
+  }
+}

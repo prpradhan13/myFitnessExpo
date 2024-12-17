@@ -3,8 +3,6 @@ import React from "react";
 import { Stack } from "expo-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-const queryClient = new QueryClient();
-
 const Layout = () => {
   return (
     <>
@@ -18,9 +16,11 @@ const Layout = () => {
 };
 
 export default function MainScreenLayout() {
+  const queryClient = new QueryClient();
+
   return (
     <QueryClientProvider client={queryClient}>
-      <Layout />
+        <Layout />
     </QueryClientProvider>
   )
 };

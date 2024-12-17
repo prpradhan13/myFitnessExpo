@@ -1,13 +1,15 @@
-import { Button, Pressable, StyleSheet, Text, View } from 'react-native'
-import React, { useMemo } from 'react'
+import { Pressable, Text, View } from 'react-native'
+import React, { useMemo, useState } from 'react'
 import { useAuth, useUser } from '@clerk/clerk-expo'
 import { useUserPlansQuery, useUserQuery } from '@/src/utils/userQuery';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomText from '@/src/utils/CustomText';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { router } from 'expo-router';
+import WeeklyPlanForm from '@/src/components/forms/WeeklyPlanForm';
 
 const profile = () => {
+  const [modalVisible, setModalVisible] = useState(false);
   const { userId } = useAuth();
 
   const { data } = useUserQuery(userId!);
@@ -46,6 +48,10 @@ const profile = () => {
   const handlePlanBoxPress = (planId: string) => {
     router.push(`/(main)/planDetatils/${planId}`)
   }
+
+  const handlePressOnCreatePlan = () => {
+    setModalVisible(true);
+  }
   
   return (
     <SafeAreaView className='flex-1 bg-backgroundColor pt-8 px-3'>
@@ -58,7 +64,7 @@ const profile = () => {
       </View>
 
       <View className={`${(!planData || planData.length === 0) ? 'hidden' : 'block'} mt-4 flex-row gap-3`}>
-        <Pressable className='bg-[#d1d1d1] w-36 p-2 justify-center items-center rounded-md'>
+        <Pressable onPress={() => setModalVisible(true)} className='bg-[#d1d1d1] w-36 p-2 justify-center items-center rounded-md'>
           <Text className='text-base font-medium'>
             Weekly Plan
           </Text>
@@ -73,7 +79,10 @@ const profile = () => {
       <View className='mt-7'>
         <CustomText style={{ fontFamily: "Montserrat-Bold", fontSize: 16 }} className=''>Your Weekly Plans</CustomText>
         {(!planData || planData.length === 0) ? (
-          <Pressable className='bg-[#d1d1d1] w-72 h-48 rounded-lg mt-2 justify-center items-center'>
+          <Pressable 
+          onPress={handlePressOnCreatePlan}
+            className='bg-[#d1d1d1] w-72 h-48 rounded-lg mt-2 justify-center items-center'
+          >
             <AntDesign name="plus" size={24} color="black" />
             <Text className='text-lg'>Create One</Text>
           </Pressable>
@@ -91,6 +100,10 @@ const profile = () => {
       <Pressable onPress={handleLogout} className='bg-red-500 p-2 rounded-md w-32 flex justify-center items-center mt-8'>
         <Text className='text-white text-lg font-semibold'>Log out</Text>
       </Pressable>
+
+      {modalVisible && (
+        <WeeklyPlanForm userId={data?._id} setModalVisible={setModalVisible} modalVisible={modalVisible} />
+      )}
     </SafeAreaView>
   )
 }

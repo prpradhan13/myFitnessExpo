@@ -31,7 +31,7 @@ const MainCard = ({ cardTitle }: MainCardProps) => {
 
         {data?.planData?.map((plan) => (
           <Pressable
-            onPress={() => handleOnPress(plan._id)}
+            onPress={() => handleOnPress(plan?._id)}
             key={plan?._id} 
             className="bg-highlightColor h-48 w-80 rounded-lg mr-5 justify-center items-center p-3"
           >

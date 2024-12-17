@@ -38,8 +38,7 @@ const Layout = () => {
       />
       <Stack screenOptions={{ headerShown: false }} />
 
-      {!isSignedIn ? <Redirect href="/(auth)" /> : <Redirect href="/(main)" />}
-      {/* <Redirect href="/(main)" /> */}
+      {!isSignedIn ? <Redirect href="/(auth)" /> : <Redirect href="/(main)/(tabs)" />}
     </>
   );
 };

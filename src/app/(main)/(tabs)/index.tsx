@@ -7,8 +7,6 @@ import DifficultyLevel from "@/src/components/DifficultyLevel";
 import { useAuth, useUser } from "@clerk/clerk-expo";
 
 const HomeScreen = () => {
-  const { user } = useUser();
-
   return (
     <SafeAreaView className="flex-1 bg-backgroundColor pt-3">
       <CustomText

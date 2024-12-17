@@ -6,22 +6,29 @@ import { useOAuth } from '@clerk/clerk-expo'
 import * as WebBrowser from 'expo-web-browser'
 import * as Linking from 'expo-linking'
 
-export const useWarmUpBrowser = () => {
-  React.useEffect(() => {
-    // Warm up the android browser to improve UX
-    // https://docs.expo.dev/guides/authentication/#improving-user-experience
-    void WebBrowser.warmUpAsync()
-    return () => {
-      void WebBrowser.coolDownAsync()
-    }
-  }, [])
-}
+// export const useWarmUpBrowser = () => {
+//   React.useEffect(() => {
+//     // Warm up the android browser to improve UX
+//     // https://docs.expo.dev/guides/authentication/#improving-user-experience
+//     void WebBrowser.warmUpAsync()
+//     return () => {
+//       void WebBrowser.coolDownAsync()
+//     }
+//   }, [])
+// }
 
 WebBrowser.maybeCompleteAuthSession()
 
 const AuthIndex = () => {
-  useWarmUpBrowser()
   const { startOAuthFlow } = useOAuth({ strategy: 'oauth_google' })
+
+  React.useEffect(() => {
+        void WebBrowser.warmUpAsync()
+        return () => {
+          void WebBrowser.coolDownAsync()
+        }
+  }, [])
+  
 
   const onPress = React.useCallback(async () => {
     try {
