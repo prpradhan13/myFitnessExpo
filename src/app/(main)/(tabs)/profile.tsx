@@ -7,14 +7,14 @@ import CustomText from "@/src/utils/CustomText";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { router } from "expo-router";
 import WeeklyPlanForm from "@/src/components/forms/WeeklyPlanForm";
+import { useUserData } from "@/src/context/UserProvider";
 
 const profile = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const { userId } = useAuth();
+  const { userData } = useUserData();
 
-  const { data } = useUserQuery(userId!);
-
-  const { planData } = useUserPlansQuery(data?._id!);
+  const { planData } = useUserPlansQuery(userData._id!);
 
   const { signOut } = useAuth();
   const { user } = useUser();
@@ -70,8 +70,7 @@ const profile = () => {
             style={{ fontFamily: "Montserrat-Bold", fontSize: 32 }}
             className="capitalize w-1/2"
           >
-            {data?.first_name}
-            User
+            {userData?.first_name}
           </CustomText>
         </View>
 
@@ -168,7 +167,7 @@ const profile = () => {
 
       {modalVisible && (
         <WeeklyPlanForm
-          userId={data?._id}
+          userId={userData._id}
           setModalVisible={setModalVisible}
           modalVisible={modalVisible}
         />

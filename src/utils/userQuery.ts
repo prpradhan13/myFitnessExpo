@@ -21,8 +21,8 @@ export const useUserPlansQuery = (userId: string) => {
     })
 }
 
-export const useCreatePlanByUser = ({userId, trainingForm}) => {
+export const useCreatePlanByUser = ({userId, planData}) => {
     return useMutation({
-        mutationFn: () => createPlanByUser({userId, trainingForm})
+        mutationFn: () => createPlanByUser({userId, planData})
     })
 };

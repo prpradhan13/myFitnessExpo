@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Stack } from "expo-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import UserProvider from "@/src/context/UserProvider";
 
 const Layout = () => {
   return (
@@ -20,7 +21,9 @@ export default function MainScreenLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <UserProvider>
         <Layout />
+      </UserProvider>
     </QueryClientProvider>
   )
 };
