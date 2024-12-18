@@ -32,6 +32,7 @@ export type PlanData = {
     difficultyLevel: string,
     description?: string,
     days?: Day[]
+    createdAt?: Date,
 }
 
 export type PlanDataResponse = {

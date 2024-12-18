@@ -5,7 +5,6 @@ import CustomText from "../utils/CustomText";
 import { usePlanQuery } from "../utils/planQuery";
 import MainCardLoader from "./loader/MainCardLoader";
 import { router } from "expo-router";
-import { useAuth } from "@clerk/clerk-expo";
 
 const MainCard = ({ cardTitle }: MainCardProps) => {
   const {data, isLoading} = usePlanQuery();
@@ -35,6 +34,9 @@ const MainCard = ({ cardTitle }: MainCardProps) => {
             key={plan?._id} 
             className="bg-highlightColor h-48 w-80 rounded-lg mr-5 justify-center items-center p-3"
           >
+            {/* <Text>
+              {plan.createdBy}
+            </Text> */}
             <CustomText
               style={{ fontSize: 19, fontFamily: "Montserrat-Bold", textAlign: "center", textTransform: "capitalize" }}
             >

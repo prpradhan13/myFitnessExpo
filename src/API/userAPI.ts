@@ -16,6 +16,11 @@ export const getUser = async (userId: string) => {
 };
 
 export const getUserPlans = async (userId: string) => {
+  if (userId === undefined) {
+    console.log("userId is Undefined");
+    return {};
+  }
+
   try {
     const res = await api.get(`/userplans/${userId}`);
     return res.data || [];
@@ -27,9 +32,6 @@ export const getUserPlans = async (userId: string) => {
 }
 
 export const createPlanByUser = async ({userId, planData}) => {
-  console.log("userId", userId);
-  console.log("payload", planData);
-  
   try {
     const res = await api.post(
       `/userplans/${userId}`, 
