@@ -3,7 +3,7 @@ import { UserDataResponse } from '../types/types';
 import { useUserQuery } from '../utils/userQuery';
 import { useAuth } from '@clerk/clerk-expo';
 
-const UserContext = createContext<UserDataResponse | {}>({});
+const UserContext = createContext<UserDataResponse | undefined>(undefined);
 
 interface UserProviderProps {
     children: ReactNode; // Explicitly define the type of `children`
@@ -13,11 +13,8 @@ export default function UserProvider({ children }: UserProviderProps){
     const { userId } = useAuth();
     const { data } = useUserQuery(userId!);
 
-    // Ensure data is passed correctly, handling cases when it's undefined
-    const userData = data || {};
-
     return (
-        <UserContext.Provider value={{userData}}>
+        <UserContext.Provider value={data}>
             {children}
         </UserContext.Provider>
     )

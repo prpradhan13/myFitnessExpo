@@ -12,9 +12,9 @@ import { useUserData } from "@/src/context/UserProvider";
 const profile = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const { userId } = useAuth();
-  const { userData } = useUserData();
+  const userData = useUserData();
 
-  const { planData } = useUserPlansQuery(userData._id!);
+  const { planData } = useUserPlansQuery(userData?._id!);
 
   const { signOut } = useAuth();
   const { user } = useUser();
@@ -129,18 +129,20 @@ const profile = () => {
                       onPress={() => handlePlanBoxPress(plans._id)}
                       className="bg-[#d1d1d1] w-72 h-48 px-3 mr-5 rounded-lg justify-center items-center relative"
                     >
-                      {plans.isPublic ? (
-                        <Text className="absolute top-3 left-4 bg-green-500 p-1 rounded-md font-medium text-white text-sm">
-                          Public
+                      <View className="absolute top-3 left-3 flex-row justify-between w-full items-center">
+                        {plans.isPublic ? (
+                          <Text className="bg-green-500 p-1 rounded-md font-medium text-white text-sm">
+                            Public
+                          </Text>
+                        ) : (
+                          <Text className="bg-blue-500 p-1 rounded-md font-medium text-white text-sm">
+                            Private
+                          </Text>
+                        )}
+                        <Text className="text-sm font-medium">
+                          {`${PlanCreationDate}/${PlanCreationMonth}/${PlanCreationYear}`}
                         </Text>
-                      ) : (
-                        <Text className="absolute top-3 left-4 bg-blue-500 p-1 rounded-md font-medium text-white text-sm">
-                          Private
-                        </Text>
-                      )}
-                      <Text className="absolute top-3 right-4">
-                        {`${PlanCreationDate}/${PlanCreationMonth}/${PlanCreationYear}`}
-                      </Text>
+                      </View>
                       <CustomText
                         style={{
                           fontFamily: "Montserrat-Bold",
@@ -167,7 +169,7 @@ const profile = () => {
 
       {modalVisible && (
         <WeeklyPlanForm
-          userId={userData._id}
+          userId={userData?._id}
           setModalVisible={setModalVisible}
           modalVisible={modalVisible}
         />
