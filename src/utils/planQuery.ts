@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getDayExerciseById, getPlanById, getPlans } from "../API/planAPI";
+import { getAllPublicDayExercises, getDayExerciseById, getPlanById, getPlans } from "../API/planAPI";
 import { Day, PlanData, PlanDataResponse } from "../types/types";
 
 export const usePlanQuery = () => {
@@ -20,6 +20,13 @@ export const useGetDayExercisesByDayId = (dayId: string) => {
     return useQuery<Day>({
         queryKey: [`day_${dayId}`],
         queryFn: () => getDayExerciseById(dayId)
+    })
+}
+
+export const useAllPublicDayExercises = () => {
+    return useQuery<Day[]>({
+        queryKey: ['public_day_exercises'],
+        queryFn: getAllPublicDayExercises
     })
 }
     

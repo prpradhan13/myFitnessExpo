@@ -21,6 +21,7 @@ export type Day = {
     name: string,
     isPublic: boolean,
     exercises?: Exercise[]
+    createdAt: Date
 }
 
 export type PlanData = {

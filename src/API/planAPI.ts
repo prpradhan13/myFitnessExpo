@@ -6,7 +6,7 @@ const api = axios.create({
 
 export const getPlans = async () => {
     try {
-        const res = await api.get('/plans')
+        const res = await api.get('/publicPlans')
         
         return res.data || [];
     } catch (error: any) {
@@ -36,3 +36,16 @@ export const getDayExerciseById = async (dayId: string) => {
         return {};
     }
 }
+
+// All public day exercise
+export const getAllPublicDayExercises = async () => {
+    try {
+        const res = await api.get('/publicDayExercises')
+
+        return res.data?.day || [];
+        
+    } catch (error: any) {
+        console.log(error.message);
+        return [];
+    }
+};

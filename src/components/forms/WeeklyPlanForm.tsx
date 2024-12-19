@@ -17,7 +17,9 @@ import TextField from "../inputs/TextField";
 import {
   configureReanimatedLogger,
   ReanimatedLogLevel,
-} from 'react-native-reanimated';
+} from "react-native-reanimated";
+import { useUserData } from "@/src/context/UserProvider";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 // This is the default configuration
 configureReanimatedLogger({
@@ -32,7 +34,6 @@ interface WeeklyPlanFormProps {
 }
 
 const WeeklyPlanForm: React.FC<WeeklyPlanFormProps> = ({
-  userId,
   modalVisible,
   setModalVisible,
 }) => {
@@ -54,6 +55,10 @@ const WeeklyPlanForm: React.FC<WeeklyPlanFormProps> = ({
   const [sets, setSets] = useState<{ repetitions: string; rest: string }[]>([
     { repetitions: "", rest: "" },
   ]);
+  // const [isSubmiting, setIsSubmiting] = useState();
+
+  const userData = useUserData();
+  const userId = userData?._id;
 
   // Navigate Steps
   const handleNextStep = () => setStep((prev) => prev + 1);
@@ -117,17 +122,31 @@ const WeeklyPlanForm: React.FC<WeeklyPlanFormProps> = ({
     setSets(updatedSets);
   };
 
-  const handleSubmitPlan = () => {
-    const planData = {
-      name,
-      isPublic,
-      difficultyLevel,
-      description,
-      days,
-    };
+  const queryClient = useQueryClient();
+  const planData = {
+    name,
+    isPublic,
+    difficultyLevel,
+    description,
+    days,
+  };
+  const createMutation = useMutation({
+    mutationFn: () => createPlanByUser({ userId, planData }),
+    onSuccess: () => {
+      // Invalidating queries for userPlan and userDayExercises
+      queryClient.invalidateQueries({ queryKey: [`userPlan_${userId}`] });
+      queryClient.invalidateQueries({
+        queryKey: [`userDayExercises_${userId}`],
+      });
+    },
+  });
 
-    createPlanByUser({ userId, planData });
+  const handleSubmitPlan = () => {
+    createMutation.mutate();
+    // setIsSubmiting(submitMutation.isPending);
+    // if (!isSubmiting) {
     setModalVisible(false);
+    // }
   };
 
   return (
@@ -137,7 +156,9 @@ const WeeklyPlanForm: React.FC<WeeklyPlanFormProps> = ({
           <Text className="text-red-500">Close</Text>
         </Pressable>
         {/* Step Navigation */}
-        <CustomText style={{ fontFamily: "Montserrat-Bold" }} className="mt-4">Let's Create a Weekly Plan</CustomText>
+        <CustomText style={{ fontFamily: "Montserrat-Bold" }} className="mt-4">
+          Let's Create a Weekly Plan
+        </CustomText>
         <Text className="text-gray-500 mb-3">Step {step} of 4</Text>
 
         {/* Step 1: Plan Details */}
@@ -176,7 +197,9 @@ const WeeklyPlanForm: React.FC<WeeklyPlanFormProps> = ({
               onPress={handleNextStep}
               className="bg-blue-500 p-3 rounded-lg"
             >
-              <Text className="text-white text-center font-semibold">Next: Add Days</Text>
+              <Text className="text-white text-center font-semibold">
+                Next: Add Days
+              </Text>
             </Pressable>
           </View>
         )}
@@ -188,13 +211,15 @@ const WeeklyPlanForm: React.FC<WeeklyPlanFormProps> = ({
               onPress={addDay}
               className="bg-green-500 p-3 rounded-lg my-3"
             >
-              <Text className="text-white text-center font-semibold">Add New Day</Text>
+              <Text className="text-white text-center font-semibold">
+                Add New Day
+              </Text>
             </Pressable>
 
             {days.map((day, index) => (
               <View key={index} className="mb-4 h-[80%]">
                 <TextField
-                label="What is your Workout?"
+                  label="What is your Workout?"
                   placeholder={`Day ${index + 1} Name`}
                   value={day.name}
                   onChangeText={(value) => handleDayChange(index, value)}
@@ -206,7 +231,9 @@ const WeeklyPlanForm: React.FC<WeeklyPlanFormProps> = ({
                   }}
                   className="bg-blue-400 p-2 mt-3 rounded-lg w-[150px]"
                 >
-                  <Text className="text-white text-center font-semibold">Add Exercises</Text>
+                  <Text className="text-white text-center font-semibold">
+                    Add Exercises
+                  </Text>
                 </Pressable>
               </View>
             ))}
@@ -270,9 +297,7 @@ const WeeklyPlanForm: React.FC<WeeklyPlanFormProps> = ({
                 </View>
 
                 <View className="flex-row items-center">
-                  <Text className="text-secondaryText font-medium">
-                    Rest:
-                  </Text>
+                  <Text className="text-secondaryText font-medium">Rest:</Text>
                   <TextInput
                     keyboardType="numeric"
                     placeholder="Rest"
@@ -314,7 +339,9 @@ const WeeklyPlanForm: React.FC<WeeklyPlanFormProps> = ({
               onPress={() => setStep(2)}
               className="bg-gray-400 p-3 rounded"
             >
-              <Text className="text-white text-center">Back to Days And Submit</Text>
+              <Text className="text-white text-center">
+                Back to Days And Submit
+              </Text>
             </Pressable>
           </View>
         )}

@@ -1,7 +1,7 @@
 import { Pressable, ScrollView, Text, View } from "react-native";
 import React, { useMemo, useState } from "react";
 import { useAuth, useUser } from "@clerk/clerk-expo";
-import { useUserPlansQuery, useUserQuery } from "@/src/utils/userQuery";
+import { useUserDayExercises, useUserPlansQuery, useUserQuery } from "@/src/utils/userQuery";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomText from "@/src/utils/CustomText";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -11,10 +11,10 @@ import { useUserData } from "@/src/context/UserProvider";
 
 const profile = () => {
   const [modalVisible, setModalVisible] = useState(false);
-  const { userId } = useAuth();
   const userData = useUserData();
 
   const { planData } = useUserPlansQuery(userData?._id!);
+  const { dayExerciseData } = useUserDayExercises(userData?._id);
 
   const { signOut } = useAuth();
   const { user } = useUser();
@@ -151,6 +151,72 @@ const profile = () => {
                         }}
                       >
                         {plans.name}
+                      </CustomText>
+                    </Pressable>
+                  );
+                })}
+            </ScrollView>
+          )}
+        </View>
+
+        {/* Single day plan details */}
+        <View className="mt-7">
+          <CustomText
+            style={{ fontFamily: "Montserrat-Bold", fontSize: 16 }}
+            className=""
+          >
+            Your Single Day Plans
+          </CustomText>
+          {!dayExerciseData || dayExerciseData.length === 0 ? (
+            <Pressable
+              onPress={handlePressOnCreatePlan}
+              className="bg-[#d1d1d1] w-72 h-48 rounded-lg mt-2 justify-center items-center"
+            >
+              <AntDesign name="plus" size={24} color="black" />
+              <Text className="text-lg">Create One</Text>
+            </Pressable>
+          ) : (
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{ marginTop: 10 }}
+            >
+              {dayExerciseData
+                ?.sort((a, b) => new Date(String(b.createdAt)).getTime() - new Date(String(a.createdAt)).getTime())
+                .slice(0, 4)
+                .map((dayExercise) => {
+                  const creationDate = new Date(String(dayExercise.createdAt)).getDate();
+                  const creationMonth = new Date(String(dayExercise.createdAt)).getMonth();
+                  const creationYear = new Date(String(dayExercise.createdAt)).getFullYear();
+
+                  return (
+                    <Pressable
+                      key={dayExercise._id}
+                      onPress={() => handlePlanBoxPress(dayExercise._id)}
+                      className="bg-[#d1d1d1] w-72 h-48 px-3 mr-5 rounded-lg justify-center items-center relative"
+                    >
+                      <View className="absolute top-3 left-3 flex-row justify-between w-full items-center">
+                        {dayExercise.isPublic ? (
+                          <Text className="bg-green-500 p-1 rounded-md font-medium text-white text-sm">
+                            Public
+                          </Text>
+                        ) : (
+                          <Text className="bg-blue-500 p-1 rounded-md font-medium text-white text-sm">
+                            Private
+                          </Text>
+                        )}
+                        <Text className="text-sm font-medium">
+                          {`${creationDate}/${creationMonth}/${creationYear}`}
+                        </Text>
+                      </View>
+                      <CustomText
+                        style={{
+                          fontFamily: "Montserrat-Bold",
+                          fontSize: 18,
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {dayExercise.name}
                       </CustomText>
                     </Pressable>
                   );

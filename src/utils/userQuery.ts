@@ -1,6 +1,11 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { createPlanByUser, getUser, getUserPlans } from "../API/userAPI";
-import { PlanDataResponse, UserDataResponse } from "../types/types";
+import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createPlanByUser, getDayExercisesByUserId, getUser, getUserPlans } from "../API/userAPI";
+import { Day, PlanDataResponse, UserDataResponse } from "../types/types";
+
+interface UseCreatePlanByUserProps {
+    userId: string | undefined;
+    planData: any;
+}
 
 export const useUserQuery = (userId: string) => {
     return useQuery<UserDataResponse>({
@@ -21,8 +26,30 @@ export const useUserPlansQuery = (userId: string) => {
     })
 }
 
-export const useCreatePlanByUser = ({userId, planData}) => {
-    return useMutation({
-        mutationFn: () => createPlanByUser({userId, planData})
+export const useCreatePlanByUser = ({userId, planData}: UseCreatePlanByUserProps) => {
+    const queryClient = useQueryClient();
+    const queryKey = userId ? [`userPlan_${userId}`] : undefined;
+
+    const createMutation = useMutation({
+        mutationFn: () => createPlanByUser({userId, planData}),
+        onSuccess: () => {
+            if (queryKey) {
+                queryClient.invalidateQueries(queryKey);
+            }
+        }
     })
+
+    return ({createMutation});
 };
+
+export const useUserDayExercises = (userId: string | undefined) => {
+    const query = useQuery<Day[]>({
+        queryKey: [`userDayExercises_${userId}`],
+        queryFn: () => getDayExercisesByUserId(userId)
+    })
+
+    return ({
+        ...query,
+        dayExerciseData: query.data
+    })
+}
