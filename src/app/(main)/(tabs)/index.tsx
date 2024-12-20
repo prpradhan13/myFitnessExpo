@@ -21,11 +21,11 @@ const HomeScreen = () => {
 
       {/* Popular Plans Cards */}
       <View className="mt-8 pl-3">
-        <MainCard cardTitle="Popular" />
+        <MainCard cardTitle="Popular 🔥" />
       </View>
 
       {/* Difficulty level */}
-      <View className="mt-8 px-3">
+      <View className="mt-4">
         <DifficultyLevel />
       </View>
     </SafeAreaView>

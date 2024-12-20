@@ -30,7 +30,7 @@ export const getDayExerciseById = async (dayId: string) => {
     try {
         const res = await api.get(`/dayExercises/${dayId}`)
 
-        return res.data?.dayExercisesData || {};
+        return res.data?.day || {};
     } catch (error: any) {
         console.log(error.message);
         return {};

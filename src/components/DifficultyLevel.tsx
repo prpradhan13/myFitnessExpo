@@ -1,38 +1,50 @@
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text, View, FlatList } from "react-native";
 import React from "react";
 import CustomText from "../utils/CustomText";
 import { router } from "expo-router";
+import { LinearGradient } from "expo-linear-gradient";
 
 const DifficultyLevel = () => {
-
-    const handleOnPress = (item: any) => {
-        router.push(`/(main)/cardDetatils/${item}`)
-    };
+  const difficultyLevelData = ["begginers", "intermidiate", "Advanced"];
+  const handleOnPress = (item: any) => {
+    router.push(`/(main)/cardDetatils/${item}`);
+  };
 
   return (
     <>
-      <CustomText style={{ fontSize: 20, fontFamily: "Montserrat-Bold" }}>
-        Level
-      </CustomText>
-
-      <View className="mt-2">
-        {["begginers", "intermidiate", "Advanced"].map((item, i) => (
-          <Pressable
-            onPress={() => handleOnPress(item)}
-            key={i}
-            className="h-20 w-full items-center justify-center bg-primaryAccentColor rounded-lg mb-3"
-          >
-            <CustomText
-              style={{
-                fontSize: 18,
-                fontFamily: "Montserrat-Bold",
-                textTransform: "capitalize",
-              }}
-            >
-              {item}
-            </CustomText>
-          </Pressable>
-        ))}
+      <View className="flex-row">
+        <FlatList
+          data={difficultyLevelData}
+          keyExtractor={(item) => item}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ marginTop: 32, paddingHorizontal: 12 }}
+          renderItem={({ item }) => {
+            return (
+              <Pressable onPress={() => handleOnPress(item)} className="w-[220] h-[220] justify-center items-center gap-2">
+                <LinearGradient
+                  colors={["#4a4a4a", "#000000"]}
+                  style={{
+                    height: 190,
+                    width: 190,
+                    borderRadius: 100,
+                    position: "absolute",
+                  }}
+                />
+                <CustomText
+                  style={{
+                    fontSize: 18,
+                    fontFamily: "Montserrat-Bold",
+                    textTransform: "capitalize",
+                    color: "#F7F6F2"
+                  }}
+                >
+                  {item}
+                </CustomText>
+              </Pressable>
+            );
+          }}
+        />
       </View>
     </>
   );

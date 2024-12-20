@@ -58,3 +58,8 @@ export type ModalVisibleProps = {
   modalVisible: boolean;
   setModalVisible: Dispatch<SetStateAction<boolean>>;
 };
+
+export type ProfileScreenListProps = {
+  title: string;
+  dataList: PlanData[] | Day[];
+}

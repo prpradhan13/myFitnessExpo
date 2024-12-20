@@ -10,9 +10,7 @@ const DayExerciseDetails = () => {
   const { dayId } = useLocalSearchParams();
   const singleId = Array.isArray(dayId) ? dayId[0] : dayId;
 
-  const { data, isLoading, isError, error } =
-    useGetDayExercisesByDayId(singleId);
-  // console.log(data?.exercises);
+  const { data, isLoading, isError, error } = useGetDayExercisesByDayId(singleId);
 
   if (isLoading) {
     return (
