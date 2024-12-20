@@ -1,16 +1,22 @@
 import { Pressable, ScrollView, Text, View } from "react-native";
 import React, { useMemo, useState } from "react";
 import { useAuth, useUser } from "@clerk/clerk-expo";
-import { useUserDayExercises, useUserPlansQuery, useUserQuery } from "@/src/utils/userQuery";
+import {
+  useUserDayExercises,
+  useUserPlansQuery,
+  useUserQuery,
+} from "@/src/utils/userQuery";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomText from "@/src/utils/CustomText";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { router } from "expo-router";
 import WeeklyPlanForm from "@/src/components/forms/WeeklyPlanForm";
 import { useUserData } from "@/src/context/UserProvider";
+import DayExerciseForm from "@/src/components/forms/DayExerciseForm";
 
 const profile = () => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [dayFormVisible, setDayFormVisible] = useState(false);
   const userData = useUserData();
 
   const { planData } = useUserPlansQuery(userData?._id!);
@@ -87,7 +93,10 @@ const profile = () => {
             <AntDesign name="plus" size={16} color="black" />
             <Text className="text-base font-medium">Weekly Plan</Text>
           </Pressable>
-          <Pressable className="bg-[#d1d1d1] p-2 flex-row gap-2 justify-center items-center rounded-md">
+          <Pressable
+            onPress={() => setDayFormVisible(true)}
+            className="bg-[#d1d1d1] p-2 flex-row gap-2 justify-center items-center rounded-md"
+          >
             <AntDesign name="plus" size={16} color="black" />
             <Text className="text-base font-medium">Single Day Plan</Text>
           </Pressable>
@@ -116,12 +125,22 @@ const profile = () => {
               contentContainerStyle={{ marginTop: 10 }}
             >
               {planData
-                ?.sort((a, b) => new Date(String(b.createdAt)).getTime() - new Date(String(a.createdAt)).getTime())
+                ?.sort(
+                  (a, b) =>
+                    new Date(String(b.createdAt)).getTime() -
+                    new Date(String(a.createdAt)).getTime()
+                )
                 .slice(0, 4)
                 .map((plans) => {
-                  const PlanCreationDate = new Date(String(plans.createdAt)).getDate();
-                  const PlanCreationMonth = new Date(String(plans.createdAt)).getMonth();
-                  const PlanCreationYear = new Date(String(plans.createdAt)).getFullYear();
+                  const PlanCreationDate = new Date(
+                    String(plans.createdAt)
+                  ).getDate();
+                  const PlanCreationMonth = new Date(
+                    String(plans.createdAt)
+                  ).getMonth();
+                  const PlanCreationYear = new Date(
+                    String(plans.createdAt)
+                  ).getFullYear();
 
                   return (
                     <Pressable
@@ -182,12 +201,22 @@ const profile = () => {
               contentContainerStyle={{ marginTop: 10 }}
             >
               {dayExerciseData
-                ?.sort((a, b) => new Date(String(b.createdAt)).getTime() - new Date(String(a.createdAt)).getTime())
+                ?.sort(
+                  (a, b) =>
+                    new Date(String(b.createdAt)).getTime() -
+                    new Date(String(a.createdAt)).getTime()
+                )
                 .slice(0, 4)
                 .map((dayExercise) => {
-                  const creationDate = new Date(String(dayExercise.createdAt)).getDate();
-                  const creationMonth = new Date(String(dayExercise.createdAt)).getMonth();
-                  const creationYear = new Date(String(dayExercise.createdAt)).getFullYear();
+                  const creationDate = new Date(
+                    String(dayExercise.createdAt)
+                  ).getDate();
+                  const creationMonth = new Date(
+                    String(dayExercise.createdAt)
+                  ).getMonth();
+                  const creationYear = new Date(
+                    String(dayExercise.createdAt)
+                  ).getFullYear();
 
                   return (
                     <Pressable
@@ -235,9 +264,15 @@ const profile = () => {
 
       {modalVisible && (
         <WeeklyPlanForm
-          userId={userData?._id}
           setModalVisible={setModalVisible}
           modalVisible={modalVisible}
+        />
+      )}
+
+      {dayFormVisible && (
+        <DayExerciseForm
+          modalVisible={dayFormVisible}
+          setModalVisible={setDayFormVisible}
         />
       )}
     </SafeAreaView>

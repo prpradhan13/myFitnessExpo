@@ -20,6 +20,7 @@ import {
 } from "react-native-reanimated";
 import { useUserData } from "@/src/context/UserProvider";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ModalVisibleProps } from "@/src/types/types";
 
 // This is the default configuration
 configureReanimatedLogger({
@@ -27,13 +28,7 @@ configureReanimatedLogger({
   strict: true, // Reanimated runs in strict mode by default
 });
 
-interface WeeklyPlanFormProps {
-  userId: string | undefined;
-  modalVisible: boolean;
-  setModalVisible: Dispatch<SetStateAction<boolean>>;
-}
-
-const WeeklyPlanForm: React.FC<WeeklyPlanFormProps> = ({
+const WeeklyPlanForm: React.FC<ModalVisibleProps> = ({
   modalVisible,
   setModalVisible,
 }) => {

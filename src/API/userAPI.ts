@@ -5,7 +5,7 @@ const api = axios.create({
 });
 
 interface UseCreatePlanByUserProps {
-  userId: string | undefined;
+  userId?: string | undefined;
   planData: any;
 }
 
@@ -63,5 +63,19 @@ export const getDayExercisesByUserId = async (userId: string | undefined) => {
   } catch (error: any) {
     console.log(error.message);
     return [];
+  }
+}
+
+export const createDayExercises = async ({planData}: UseCreatePlanByUserProps) => {
+    try {
+    const res = await api.post(
+      '/dayExercises',
+      planData
+    )
+
+    return res.data || {}
+  } catch (error: any) {
+    console.log(error.message);
+    return {};
   }
 }

@@ -26,21 +26,21 @@ export const useUserPlansQuery = (userId: string) => {
     })
 }
 
-export const useCreatePlanByUser = ({userId, planData}: UseCreatePlanByUserProps) => {
-    const queryClient = useQueryClient();
-    const queryKey = userId ? [`userPlan_${userId}`] : undefined;
+// export const useCreatePlanByUser = ({userId, planData}: UseCreatePlanByUserProps) => {
+//     const queryClient = useQueryClient();
+//     const queryKey = userId ? [`userPlan_${userId}`] : undefined;
 
-    const createMutation = useMutation({
-        mutationFn: () => createPlanByUser({userId, planData}),
-        onSuccess: () => {
-            if (queryKey) {
-                queryClient.invalidateQueries(queryKey);
-            }
-        }
-    })
+//     const createMutation = useMutation({
+//         mutationFn: () => createPlanByUser({userId, planData}),
+//         onSuccess: () => {
+//             if (queryKey) {
+//                 queryClient.invalidateQueries(queryKey);
+//             }
+//         }
+//     })
 
-    return ({createMutation});
-};
+//     return ({createMutation});
+// };
 
 export const useUserDayExercises = (userId: string | undefined) => {
     const query = useQuery<Day[]>({
