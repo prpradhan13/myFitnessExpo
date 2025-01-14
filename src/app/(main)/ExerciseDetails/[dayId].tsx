@@ -29,10 +29,10 @@ const DayExerciseDetails = () => {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-backgroundColor p-3">
+    <View className="flex-1 bg-backgroundColor px-4">
       <CustomText
         style={{
-          fontSize: 26,
+          fontSize: 16,
           fontFamily: "Montserrat-SemiBold",
           textTransform: "capitalize",
         }}
@@ -44,12 +44,14 @@ const DayExerciseDetails = () => {
         data={data?.exercises}
         keyExtractor={elem => elem._id}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingVertical: 10,
+          gap: 10,
+        }}
         renderItem={({ item }) => <WorkoutDetailsBox exercises={item} />}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
 export default DayExerciseDetails;
-
-const styles = StyleSheet.create({});

@@ -50,14 +50,21 @@ const WeeklyPlanForm: React.FC<ModalVisibleProps> = ({
   const [sets, setSets] = useState<{ repetitions: string; rest: string }[]>([
     { repetitions: "", rest: "" },
   ]);
-  // const [isSubmiting, setIsSubmiting] = useState();
 
   const userData = useUserData();
   const userId = userData?._id;
 
   // Navigate Steps
   const handleNextStep = () => setStep((prev) => prev + 1);
-  const handlePreviousStep = () => setStep((prev) => prev - 1);
+  // const handlePreviousStep = () => setStep((prev) => prev - 1);
+  const handlePreviousStep = () => {
+    setStep((prev) => {
+      if (prev === 3) {
+        setCurrentDayIndex(null); // Reset currentDayIndex when navigating back to Step 2
+      }
+      return prev - 1;
+    });
+  };
 
   // Add Day Logic
   const addDay = () => {
@@ -144,6 +151,9 @@ const WeeklyPlanForm: React.FC<ModalVisibleProps> = ({
     // }
   };
 
+  // console.log("Days:", days);
+  // console.log("Current DayIndex:", currentDayIndex);
+
   return (
     <Modal animationType="slide" visible={modalVisible} className="">
       <ScrollView className="p-4 flex-1 bg-backgroundColor">
@@ -212,7 +222,7 @@ const WeeklyPlanForm: React.FC<ModalVisibleProps> = ({
             </Pressable>
 
             {days.map((day, index) => (
-              <View key={index} className="mb-4 h-[80%]">
+              <View key={index} className="mb-4">
                 <TextField
                   label="What is your Workout?"
                   placeholder={`Day ${index + 1} Name`}
@@ -233,6 +243,7 @@ const WeeklyPlanForm: React.FC<ModalVisibleProps> = ({
               </View>
             ))}
 
+            {/* Ensure the "Review & Submit" button is always visible if days exist */}
             {days.length > 0 && (
               <Pressable
                 onPress={() => setStep(4)}
@@ -345,6 +356,12 @@ const WeeklyPlanForm: React.FC<ModalVisibleProps> = ({
         {step === 4 && (
           <View>
             <Text className="font-bold mb-3">Review Your Plan</Text>
+            <Pressable
+              onPress={handleSubmitPlan}
+              className="bg-blue-500 p-3 rounded mt-4"
+            >
+              <Text className="text-white text-center">Submit Plan</Text>
+            </Pressable>
             <Text>
               {JSON.stringify(
                 { name, isPublic, difficultyLevel, description, days },
@@ -352,13 +369,6 @@ const WeeklyPlanForm: React.FC<ModalVisibleProps> = ({
                 2
               )}
             </Text>
-
-            <Pressable
-              onPress={handleSubmitPlan}
-              className="bg-blue-500 p-3 rounded mt-4"
-            >
-              <Text className="text-white text-center">Submit Plan</Text>
-            </Pressable>
           </View>
         )}
       </ScrollView>

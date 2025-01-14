@@ -38,7 +38,7 @@ const PlanDetails = () => {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-backgroundColor pt-5 px-3">
+    <View className="flex-1 bg-backgroundColor px-4">
       <View>
         {/* Difficulty Level */}
         <View className="bg-extrasColor rounded-md w-32 mt-2 py-1 justify-center items-center flex">
@@ -60,7 +60,7 @@ const PlanDetails = () => {
             fontSize: 24,
             fontFamily: "Montserrat-Bold",
             textTransform: "capitalize",
-            marginTop: 5
+            marginTop: 5,
           }}
         >
           {data?.name}
@@ -69,30 +69,30 @@ const PlanDetails = () => {
         {/* Description */}
         <Text
           style={{ fontFamily: "Montserrat-SemiBold" }}
-          className="mt-3 leading-4"
+          className="mt-2 leading-4"
         >
           {data?.description}
         </Text>
       </View>
 
       {/* Workout Details */}
-      <View className="mt-8">
+      <View className="mt-4">
         {data?.days?.map((day) => (
           <Pressable
             onPress={() => handleOnPress(day._id)}
             key={day._id}
-            className="bg-primaryAccentColor rounded-md p-5 mb-3"
+            className="bg-[#000] rounded-md p-5 mb-3"
           >
             <Text
               style={{ fontFamily: "Montserrat-Bold" }}
-              className="capitalize text-xl"
+              className="capitalize text-xl text-[#fff]"
             >
               {day.name}
             </Text>
           </Pressable>
         ))}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

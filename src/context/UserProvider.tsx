@@ -1,4 +1,4 @@
-import { useContext, createContext, useState, ReactNode } from 'react';
+import { useContext, createContext, ReactNode } from 'react';
 import { UserDataResponse } from '../types/types';
 import { useUserQuery } from '../utils/userQuery';
 import { useAuth } from '@clerk/clerk-expo';

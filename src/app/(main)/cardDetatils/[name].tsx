@@ -8,7 +8,7 @@ const CardDetatils = () => {
   const { name } = useLocalSearchParams();
 
   return (
-    <SafeAreaView className="flex-1 bg-backgroundColor p-3">
+    <View className="flex-1 bg-backgroundColor px-4">
       <CustomText
         style={{
           fontSize: 26,
@@ -30,7 +30,7 @@ const CardDetatils = () => {
           Chest Day
         </CustomText>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

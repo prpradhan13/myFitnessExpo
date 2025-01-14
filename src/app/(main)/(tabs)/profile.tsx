@@ -1,15 +1,13 @@
 import { Pressable, ScrollView, Text, View } from "react-native";
-import React, { useMemo, useState } from "react";
-import { useAuth, useUser } from "@clerk/clerk-expo";
+import React, { useState } from "react";
+import { useAuth } from "@clerk/clerk-expo";
 import {
   useUserDayExercises,
   useUserPlansQuery,
-  useUserQuery,
 } from "@/src/utils/userQuery";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomText from "@/src/utils/CustomText";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { router } from "expo-router";
 import WeeklyPlanForm from "@/src/components/forms/WeeklyPlanForm";
 import { useUserData } from "@/src/context/UserProvider";
 import DayExerciseForm from "@/src/components/forms/DayExerciseForm";
@@ -24,7 +22,6 @@ const profile = () => {
   const { dayExerciseData } = useUserDayExercises(userData?._id);
 
   const { signOut } = useAuth();
-  const { user } = useUser();
 
   const handleLogout = async () => {
     try {
@@ -34,34 +31,9 @@ const profile = () => {
     }
   };
 
-  const getInitialLetter = (fullName: any) => {
-    if (!fullName) return "";
-    // const nameParts = fullname[0];
-    // return nameParts // If incase change of mind and i want to show the fullname's 1st letter
-    const nameParts = fullName.split(" ");
-    return nameParts.length === 1
-      ? fullName.slice(0, 2).toUpperCase()
-      : nameParts
-          .map((name: any) => name[0])
-          .join("")
-          .toUpperCase();
-  };
-
-  const userNameInitials = useMemo(
-    () => getInitialLetter(user?.fullName),
-    [user?.fullName]
-  );
-
-  const handlePlanBoxPress = (planId: string) => {
-    router.push(`/(main)/planDetatils/${planId}`);
-  };
-
-  const handlePressOnCreatePlan = () => {
-    setModalVisible(true);
-  };
-
   return (
     <SafeAreaView className="flex-1 bg-backgroundColor pt-8">
+  
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 20 }}
